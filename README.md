@@ -14,7 +14,9 @@ usage
 -----
 
 ```javascript
+// Mock must be required before cassandra-driver.
 var cassandraMock = require('cassandra-driver-mock');
+
 var Cassandra = require('cassandra-driver').Client;
 
 var cassandra = new Cassandra({contactPoints: ['localhost'], keyspace: 'keyspace1'});
