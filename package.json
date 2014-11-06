@@ -1,0 +1,32 @@
+{
+  "name": "cassandra-driver-mock",
+  "version": "1.0.0",
+  "description": "Basic mocking of the cassandra-driver library.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kennethklee/node-cassandra-driver-mock.git"
+  },
+  "keywords": [
+    "cassandra",
+    "cassandra-driver",
+    "mock"
+  ],
+  "author": "Kenneth Lee <kennethkl@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kennethklee/node-cassandra-driver-mock/issues"
+  },
+  "homepage": "https://github.com/kennethklee/node-cassandra-driver-mock",
+  "dependencies": {
+    "rewire": "^2.1.3"
+  },
+  "devDependencies": {
+    "cassandra-driver": "^1.0.1",
+    "mocha": "^2.0.1",
+    "should": "^4.2.0"
+  }
+}
