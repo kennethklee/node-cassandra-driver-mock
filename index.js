@@ -1,5 +1,6 @@
 var rewire = require('rewire');
     cassandra = require('cassandra-driver');
+
 var mockClient = rewire('cassandra-driver/lib/client');
 
 exports.connectionCount = 0;
