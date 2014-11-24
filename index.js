@@ -26,7 +26,7 @@ mockRequestHandler.prototype.send = function (query, options, cb) {
     // Collect stats
     exports.requestCount++;
 
-    cb(null, {id: new Buffer([0]), meta: {}});
+    cb(null, {id: new Buffer([0]), meta: {columns: []}});
 };
 mockClient.__set__('RequestHandler', mockRequestHandler);
 cassandra.Client = mockClient;
