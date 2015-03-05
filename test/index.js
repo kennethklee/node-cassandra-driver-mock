@@ -51,4 +51,20 @@ describe('Mock', function() {
             done();
         });
     });
+
+    it('should increment 1 request count for a batch', function(done) {
+        var lastRequestCount = cassandraMock.requestCount;
+        var lastConnectionCount = cassandraMock.connectionCount;
+        var batchQuery = [{
+            query: 'SOME QUERY'
+        }];
+
+        var cassandra = new Cassandra({contactPoints: ['localhost'], keyspace: 'keyspace1'});
+        cassandra.batch(batchQuery, function(err, result) {
+            cassandraMock.requestCount.should.equal(lastRequestCount + 1);
+            cassandraMock.connectionCount.should.equal(lastConnectionCount + 1);
+
+            done();
+        });
+    });
 });
