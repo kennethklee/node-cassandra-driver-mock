@@ -23,8 +23,14 @@ mockClient.prototype.connect = function (callback) {
 
 var mockRequestHandler = function () {};
 mockRequestHandler.prototype.send = function (query, options, cb) {
+    console.log(query);
     // Collect stats
-    exports.requestCount++;
+    if (query.query) {
+        exports.requestCount++;
+    }
+    if (query.queries) {
+        exports.requestCount += query.queries.length;
+    }
 
     cb(null, {id: new Buffer([0]), meta: {columns: []}});
 };
