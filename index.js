@@ -23,7 +23,6 @@ mockClient.prototype.connect = function (callback) {
 
 var mockRequestHandler = function () {};
 mockRequestHandler.prototype.send = function (query, options, cb) {
-    console.log(query);
     // Collect stats
     if (query.query) {
         exports.requestCount++;
