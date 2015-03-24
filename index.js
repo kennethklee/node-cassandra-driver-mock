@@ -1,5 +1,6 @@
 var rewire = require('rewire');
     cassandra = require('cassandra-driver');
+    Metadata = require('cassandra-driver/lib/metadata');
 
 var mockClient = rewire('cassandra-driver/lib/client');
 
@@ -10,15 +11,22 @@ mockClient.prototype.connect = function (callback) {
     if (this.connected) return callback();
     this.connected = true;
     this.connecting = false;
+    function connectCallback(err) {
+        // Collect stats
+        exports.connectionCount++;
 
-    // Collect stats
-    exports.connectionCount++;
-
-    try {
-        callback();
-    } finally {
-        this.emit('connected');
+        self.connected = !err;
+        self.connecting = false;
+        try {
+            callback(err);
+        }
+        finally {
+          self.emit('connected', err);
+        }
     }
+    var self = this;
+    this.metadata = new Metadata(this.options);
+    connectCallback();
 };
 
 var mockRequestHandler = function () {};
