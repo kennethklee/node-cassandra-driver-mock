@@ -1,6 +1,6 @@
 var rewire = require('rewire');
     cassandra = require('cassandra-driver');
-    ControlConnection = require('./control-connection');
+    ControlConnection = require('cassandra-driver/lib/control-connection');
 
 var mockClient = rewire('cassandra-driver/lib/client');
 
