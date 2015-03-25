@@ -41,6 +41,7 @@ mockRequestHandler.prototype.send = function (query, options, cb) {
 };
 
 mockRequestHandler.prototype.prepareMultiple = function (queries, callbacksArray, options, callback) {
+    // Collect prepare queries
     exports.requestCount += queries.length;
 
     callback();
