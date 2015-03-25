@@ -3,6 +3,7 @@ var rewire = require('rewire');
     Encoder = require('cassandra-driver/lib/encoder');
 
 var mockClient = rewire('cassandra-driver/lib/client');
+var cassandraPackage = require('cassandra-driver/package.json');
 
 exports.connectionCount = 0;
 exports.requestCount = 0;
@@ -13,9 +14,13 @@ mockClient.prototype.connect = function (callback) {
     this.connecting = false;
 
     this.metadata = this.controlConnection.metadata;
-    this.controlConnection.connection = {
-        encoder: new Encoder(null, this.controlConnection.options)
-    };
+
+    // Make compatible with v2
+    if (cassandraPackage.version.substr(0, 1) === '2') {    // TODO there's probably a better way to do this to check version
+        this.controlConnection.connection = {
+            encoder: new Encoder(null, this.controlConnection.options)
+        };
+    }
 
     // Collect stats
     exports.connectionCount++;
