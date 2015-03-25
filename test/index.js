@@ -20,7 +20,7 @@ describe('Mock', function() {
     });
 
     it('should one query and one new connection', function(done) {
-        cassandra.execute('SOME QUERY;', function(err, result) {
+        cassandra.execute('INSERT SOME QUERY;', function(err, result) {
             should.not.exist(err);
 
             cassandraMock.requestCount.should.equal(lastRequestCount + 1);
@@ -79,7 +79,7 @@ describe('Mock', function() {
         cassandra.batch(batchQuery, {prepare: true}, function(err, result) {
             should.not.exist(err);
 
-            cassandraMock.requestCount.should.equal(lastRequestCount + batchQuery.length);
+            cassandraMock.requestCount.should.equal(lastRequestCount + batchQuery.length + batchQuery.length); // prepare queries, then actual queries
             cassandraMock.connectionCount.should.equal(lastConnectionCount + 1);
 
             done();
