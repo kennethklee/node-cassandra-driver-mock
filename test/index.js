@@ -1,6 +1,7 @@
 var should = require('should');
 var cassandraMock = require('../index');
 var Cassandra = require('cassandra-driver').Client;
+var cassandraPackage = require('cassandra-driver/package.json');
 
 describe('Mock', function() {
     var cassandra;
@@ -20,7 +21,7 @@ describe('Mock', function() {
     });
 
     it('should one query and one new connection', function(done) {
-        cassandra.execute('SOME QUERY;', function(err, result) {
+        cassandra.execute('INSERT SOME QUERY;', function(err, result) {
             should.not.exist(err);
 
             cassandraMock.requestCount.should.equal(lastRequestCount + 1);
@@ -79,7 +80,13 @@ describe('Mock', function() {
         cassandra.batch(batchQuery, {prepare: true}, function(err, result) {
             should.not.exist(err);
 
-            cassandraMock.requestCount.should.equal(lastRequestCount + batchQuery.length);
+            var prepareQueryCount = 0;  // v1 doesn't do prepare queries for batch
+
+            if (cassandraPackage.version.substr(0, 1) === '2') {
+                prepareQueryCount = batchQuery.length;
+            }
+
+            cassandraMock.requestCount.should.equal(lastRequestCount + prepareQueryCount + batchQuery.length); // prepare queries, then actual queries
             cassandraMock.connectionCount.should.equal(lastConnectionCount + 1);
 
             done();
